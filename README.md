@@ -1,7 +1,6 @@
 # Y2K Museum
 
 An online museum of early-2000s tech: the waiting, the limits and the sounds.
-Brainstorm and spec: `y2k.md`.
 
 Plain HTML + JS modules, no build step. ES modules need a server, so locally:
 
