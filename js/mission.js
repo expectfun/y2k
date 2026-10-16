@@ -8,7 +8,7 @@ export function formatTime(ms) {
 
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
-export function createMission({ bar, dialog, today, nextHref, nextLabel }) {
+export function createMission({ bar, idle, dialog, today, nextHref, nextLabel }) {
   const taskEl = bar.querySelector('.mission-task');
   const timeEl = bar.querySelector('.mission-time');
   let active = false;
@@ -22,6 +22,7 @@ export function createMission({ bar, dialog, today, nextHref, nextLabel }) {
   const elapsed = () => (t0 ? (t1 || performance.now()) - t0 : 0);
   const paint = () => { timeEl.textContent = formatTime(elapsed()); };
   const stopTick = () => { clearInterval(timer); timer = 0; };
+  const showBar = (on) => { bar.hidden = !on; if (idle) idle.hidden = on; };
 
   bar.querySelector('.mission-stop').addEventListener('click', () => {
     const cb = onCancel;
@@ -40,7 +41,7 @@ export function createMission({ bar, dialog, today, nextHref, nextLabel }) {
   nextA.textContent = nextLabel;
 
   dialog.addEventListener('close', () => {
-    if (!active) bar.hidden = true;
+    if (!active) showBar(false);
     const cb = onClose;
     onClose = null;
     cb?.();
@@ -59,7 +60,7 @@ export function createMission({ bar, dialog, today, nextHref, nextLabel }) {
       onCancel = cancel;
       onRetry = retry;
       taskEl.textContent = task;
-      bar.hidden = false;
+      showBar(true);
       paint();
     },
 
@@ -95,7 +96,7 @@ export function createMission({ bar, dialog, today, nextHref, nextLabel }) {
       t0 = 0;
       t1 = 0;
       stopTick();
-      bar.hidden = true;
+      showBar(false);
       paint();
     },
 

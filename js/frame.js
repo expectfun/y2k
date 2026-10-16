@@ -8,7 +8,8 @@ const frames = {
     entranceNote: 'Best with sound on. This museum is Y2K compliant.',
     enterLabel: 'Enter',
     hallTitle: 'Main hall',
-    hallIntro: 'Three objects from the turn of the millennium. Start with any of them, or follow the numbers from the oldest.',
+    hallIntro: 'Three objects from the turn of the millennium. Pick any display case, or start the tour from the oldest one.',
+    hallTip: 'Every exhibit works: touch it, then try its challenge to feel how long things took.',
     back: null, // { href, label } — a link back to the host world's hub
   },
 };

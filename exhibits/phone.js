@@ -82,6 +82,7 @@ export function mount(container, context) {
   canvas = el.querySelector('canvas');
   liveEl = el.querySelector('[aria-live]');
   noteEl = el.querySelector('.phone-note');
+  fit();
   screen = createScreen(canvas);
 
   for (const btn of el.querySelectorAll('[data-k]')) {
@@ -126,8 +127,18 @@ export function challenge() {
   render();
 }
 
+// Shrink the phone to fit short windows; zoom keeps layout and hit-testing consistent.
+function fit() {
+  const stage = el.querySelector('.phone-stage');
+  stage.style.zoom = '';
+  const avail = el.clientHeight - 40;
+  const need = stage.offsetHeight;
+  if (need > avail) stage.style.zoom = String(Math.max(0.6, avail / need));
+}
+
 function onResize() {
   if (!screen) return;
+  fit();
   screen.resize();
   render();
 }

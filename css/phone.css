@@ -63,7 +63,4 @@
 }
 .phone-note p { margin: 0; }
 .note-kicker { font-size: .95rem; color: #6d5a10; margin-bottom: .3em !important; }
-@media (max-width: 640px) {
-  .phone-note { order: -1; margin-top: 0; width: 100%; max-width: 300px; transform: none; }
-}
-@media (max-width: 340px) { .phone { width: 100%; } }
+

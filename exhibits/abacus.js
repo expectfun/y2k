@@ -173,7 +173,7 @@ function checkAnswer() {
 // --- the abacus itself -------------------------------------------------------
 
 function computeScale() {
-  const availH = Math.min(Math.max(window.innerHeight - 330, 320), 600);
+  const availH = Math.min(Math.max((el?.clientHeight || 600) - 150, 260), 600);
   const baseWireH = 38;
   const scale = Math.min(3, Math.max(0.6, availH / (WIRES.length * baseWireH)));
   const wireH = Math.round(baseWireH * scale);

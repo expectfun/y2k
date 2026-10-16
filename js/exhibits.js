@@ -28,8 +28,9 @@ export const exhibits = [
         </ol>
         <p class="hint-small">Keyboard: ↑ ↓ choose a wire, ← → move beads.</p>`,
     },
+    teaser: 'Add up a shop receipt on the beads. No display, like the real thing.',
     today: 'A calculator: ~10 s. Your phone: ~3 s.',
-    challengeLabel: 'Try a challenge',
+    challengeLabel: 'Try the challenge',
   },
   {
     id: 'phone',
@@ -57,8 +58,9 @@ export const exhibits = [
         </ul>
         <p class="hint-small">Keyboard: digits, * and # work; Backspace is C.</p>`,
     },
+    teaser: 'Text a friend that you are running late, with twelve keys.',
     today: '~5 s on a phone keyboard, ~2 s by voice.',
-    challengeLabel: 'Try a challenge',
+    challengeLabel: 'Try the challenge',
   },
   {
     id: 'dialup',
@@ -80,6 +82,7 @@ export const exhibits = [
         <p>Don't stay online all evening, Mom needs the phone.</p>
         <p>And DON'T pick up the phone while the modem is on!!!</p>`,
     },
+    teaser: 'Your friend sent you photos from the party. Check your email.',
     today: '0 s — your phone would have shown it before you even asked.',
     challengeLabel: 'Start over',
   },
