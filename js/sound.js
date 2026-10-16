@@ -243,3 +243,64 @@ export function handshake(bus) {
   hiss(s + 10.9, 4.6, 0.17, 1900, o);
   return HANDSHAKE_SECONDS;
 }
+
+// --- the CD-ROM drive (the museum "boots" from a disc) ----------------------
+
+export function cdClick(bus) {
+  if (!ac) return;
+  const s = now();
+  noise(s, 0.012, 0.3, { type: 'highpass', freq: 2500, q: 0.7, bus });
+  tones(1900, s, 0.012, 0.03, { type: 'square', bus });
+}
+
+// The tray motor: a low geared buzz with a little rattle.
+export function cdMotor(dur, bus) {
+  if (!ac) return;
+  const s = now();
+  const out = bus || master;
+  const lp = ac.createBiquadFilter();
+  lp.type = 'lowpass';
+  lp.frequency.value = 520;
+  lp.connect(env(s, dur, 0.08, out, 0.05, 0.08));
+  osc(95, 'sawtooth', s, dur, lp).frequency.linearRampToValueAtTime(120, s + dur);
+  const half = ac.createGain();
+  half.gain.value = 0.4;
+  half.connect(lp);
+  osc(190, 'square', s, dur, half);
+  noise(s, dur, 0.025, { freq: 900, q: 1.2, bus: out, attack: 0.05, release: 0.08 });
+}
+
+export function cdClunk(bus) {
+  if (!ac) return;
+  const s = now();
+  noise(s, 0.08, 0.4, { type: 'lowpass', freq: 420, q: 0.8, bus });
+  tones(90, s, 0.1, 0.12, { type: 'triangle', bus });
+}
+
+// Spin-up: a whine that rises and settles, with air noise under it.
+export function cdSpin(dur, bus) {
+  if (!ac) return;
+  const s = now();
+  const out = bus || master;
+  const g = env(s, dur, 0.022, out, 0.35, 0.3);
+  const o = osc(120, 'triangle', s, dur, g);
+  o.frequency.exponentialRampToValueAtTime(880, s + 1.4);
+  o.frequency.linearRampToValueAtTime(940, s + dur);
+  noise(s, dur, 0.035, { freq: 650, q: 0.4, bus: out, attack: 0.5, release: 0.3 });
+}
+
+// The read head seeking: bursts of tiny clicks with pauses between.
+export function cdSeek(dur, bus) {
+  if (!ac) return;
+  const s = now();
+  let t = s + 0.25;
+  while (t < s + dur) {
+    const burst = 2 + Math.floor(Math.random() * 4);
+    for (let i = 0; i < burst && t < s + dur; i++) {
+      noise(t, 0.007, 0.22, { type: 'highpass', freq: 3200, q: 0.7, bus, attack: 0.001, release: 0.004 });
+      tones(260 + Math.random() * 80, t, 0.006, 0.03, { type: 'square', bus, attack: 0.001, release: 0.003 });
+      t += 0.025 + Math.random() * 0.04;
+    }
+    t += 0.15 + Math.random() * 0.4;
+  }
+}

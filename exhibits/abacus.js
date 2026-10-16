@@ -2,7 +2,7 @@
 // Freeplay shows the value; the challenge hides it, like a real abacus.
 
 // Values in thousandths, so sums stay exact integers.
-const WIRES = [
+const ALL_WIRES = [
   { beads: 10, label: '0.001', milli: 1 },
   { beads: 10, label: '0.01', milli: 10 },
   { beads: 10, label: '0.1', milli: 100 },
@@ -15,6 +15,8 @@ const WIRES = [
   { beads: 10, label: '100K', milli: 100000000 },
   { beads: 10, label: '1M', milli: 1000000000 },
 ];
+// The shortened replica: kopecks up to thousands, enough for any receipt.
+const SHORT_WIRES = ALL_WIRES.filter((w) => w.milli >= 10 && w.milli <= 1000000);
 
 // Prices in kopecks, roughly 2001.
 const GOODS = [
@@ -30,9 +32,10 @@ let abacusEl = null;
 let displayEl = null;
 let msgEl = null;
 let receiptEl = null;
+let WIRES = SHORT_WIRES;
 let state = [];
 let S = {};
-let focusWire = 4;
+let focusWire = 0;
 let inMission = false;
 let receiptTotal = 0; // kopecks
 let resizeTimer = 0;
@@ -42,9 +45,10 @@ const q = (s) => el.querySelector(s);
 export function mount(container, context) {
   ctx = context;
   el = container;
+  WIRES = SHORT_WIRES;
   state = WIRES.map(() => 0);
   inMission = false;
-  focusWire = 4;
+  focusWire = rublesWire();
 
   el.innerHTML = `
     <div class="abacus-stage">
@@ -54,6 +58,7 @@ export function mount(container, context) {
                aria-label="Value on the abacus. Type a number and press Enter to set the beads.">0</div>
           <button type="button" class="btn abacus-set">Set</button>
           <button type="button" class="btn abacus-reset">Reset</button>
+          <button type="button" class="btn abacus-size"></button>
           <button type="button" class="btn primary abacus-done" hidden>Done</button>
         </div>
         <p class="abacus-msg" role="status"></p>
@@ -76,6 +81,7 @@ export function mount(container, context) {
   q('.abacus-set').addEventListener('mousedown', (e) => e.preventDefault()); // keep the typed text until we read it
   q('.abacus-set').addEventListener('click', applyDisplayInput);
   q('.abacus-done').addEventListener('click', checkAnswer);
+  q('.abacus-size').addEventListener('click', () => setFull(WIRES === SHORT_WIRES));
   displayEl.addEventListener('keydown', (e) => {
     if (e.key === 'Enter') { e.preventDefault(); applyDisplayInput(); }
   });
@@ -131,6 +137,28 @@ function exitMission() {
   updateDisplay();
 }
 
+const rublesWire = () => WIRES.findIndex((w) => w.milli === 1000);
+
+// Switch between the shortened replica and the full 11-wire abacus, keeping the beads that exist in both.
+function setFull(full) {
+  const before = new Map(WIRES.map((w, i) => [w.label, state[i]]));
+  WIRES = full ? ALL_WIRES : SHORT_WIRES;
+  state = WIRES.map((w) => before.get(w.label) || 0);
+  focusWire = rublesWire();
+  build();
+  ctx.sound.clack(3);
+}
+
+function paintNote() {
+  const full = WIRES === ALL_WIRES;
+  ctx.setNote(full
+    ? { label: 'Replica', text: `Full size: all ${ALL_WIRES.length} wires, from tenths of a kopeck up to millions.` }
+    : { label: 'Replica', text: `Shortened: ${SHORT_WIRES.length} of the original ${ALL_WIRES.length} wires. Real счёты went up to millions.` });
+  const btn = q('.abacus-size');
+  btn.textContent = full ? `Shortened (${SHORT_WIRES.length})` : `All ${ALL_WIRES.length} wires`;
+  btn.title = full ? 'Show the shortened replica' : 'Show the full abacus';
+}
+
 // --- receipt ---------------------------------------------------------------
 
 const rub = (kop) => `${Math.floor(kop / 100)}.${String(kop % 100).padStart(2, '0')}`;
@@ -173,11 +201,11 @@ function checkAnswer() {
 // --- the abacus itself -------------------------------------------------------
 
 function computeScale() {
-  const availH = Math.min(Math.max((el?.clientHeight || 600) - 150, 260), 600);
+  const availH = Math.min(Math.max((el?.clientHeight || 600) - 150, 240), 600); // room for the buttons and the message
   const baseWireH = 38;
   const scale = Math.min(3, Math.max(0.6, availH / (WIRES.length * baseWireH)));
   const wireH = Math.round(baseWireH * scale);
-  const width = Math.round((WIRES.length * wireH) / 2); // 1:2, like the original
+  const width = Math.round((ALL_WIRES.length * wireH) / 2); // the full abacus is 1:2; the replica keeps its width
   S = {
     wireH,
     width,
@@ -263,6 +291,7 @@ function build() {
 
   for (let i = 0; i < WIRES.length; i++) layoutWire(i);
   updateDisplay();
+  paintNote();
 }
 
 function rowOf(w) {
@@ -356,7 +385,8 @@ function applyDisplayInput() {
   const val = parseFloat(raw);
   if (!Number.isNaN(val)) {
     // Greedy from the top, skipping the quarter wire (nobody used it for this).
-    let remaining = Math.round(Math.min(val, 10999999.999) * 1000);
+    const capacity = WIRES.reduce((s, w) => s + (w.quarter ? 0 : w.beads * w.milli), 0);
+    let remaining = Math.min(Math.round(val * 1000), capacity);
     for (let w = WIRES.length - 1; w >= 0; w--) {
       if (WIRES[w].quarter) { state[w] = 0; continue; }
       const count = Math.min(WIRES[w].beads, Math.floor(remaining / WIRES[w].milli));

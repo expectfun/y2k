@@ -58,6 +58,7 @@
   color: #e2c98f; opacity: .75; white-space: nowrap; pointer-events: none;
 }
 
+
 /* the paper receipt for the challenge */
 .receipt {
   width: 240px; margin-top: 56px; padding: 16px 16px 26px;

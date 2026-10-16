@@ -1,19 +1,24 @@
 // Rough hall art for the display cases: small inline SVGs, one per exhibit.
 
+// Matches the shortened replica in the exhibit: portrait, 7 wires, the short quarter wire in the middle.
 function abacus() {
-  const rows = [3, 7, 0, 5, 10, 2];
+  const rows = [0, 2, 5, 3, -1, 4, 7]; // beads counted per wire, top to bottom; -1 = quarter wire
+  const step = 6.6;
   let beads = '';
   rows.forEach((n, r) => {
-    const y = 18 + r * 12;
-    beads += `<line x1="9" y1="${y}" x2="111" y2="${y}" stroke="#4a4038" stroke-width="1.4"/>`;
-    for (let b = 0; b < 10; b++) {
-      const x = b < n ? 14 + b * 8.4 : 106 - (9 - b) * 8.4;
-      const dark = b === 4 || b === 5;
-      beads += `<ellipse cx="${x.toFixed(1)}" cy="${y}" rx="4" ry="5.2" fill="${dark ? '#2a2420' : '#d9bb7d'}" stroke="${dark ? '#000' : '#8a6a30'}" stroke-width=".8"/>`;
+    const y = 19 + r * 13.4;
+    beads += `<line x1="8" y1="${y}" x2="80" y2="${y}" stroke="#9aa0a8" stroke-width="1.3"/>`;
+    const total = n < 0 ? 4 : 10;
+    const counted = Math.max(0, n);
+    const dark = n < 0 ? [1, 2] : [4, 5];
+    for (let b = 0; b < total; b++) {
+      const x = b < counted ? 12.5 + b * step : 75.5 - (total - 1 - b) * step;
+      const d = dark.includes(b);
+      beads += `<ellipse cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" rx="3.1" ry="4.8" fill="${d ? '#2a2420' : '#d9bb7d'}" stroke="${d ? '#000' : '#8a6a30'}" stroke-width=".7"/>`;
     }
   });
-  return `<svg viewBox="0 0 120 96" xmlns="http://www.w3.org/2000/svg">${beads}
-    <rect x="4.5" y="4.5" width="111" height="87" rx="4" fill="none" stroke="#7a5030" stroke-width="7"/></svg>`;
+  return `<svg viewBox="0 0 88 112" xmlns="http://www.w3.org/2000/svg">${beads}
+    <rect x="4.5" y="5" width="79" height="102" rx="3" fill="none" stroke="#7a5030" stroke-width="7"/></svg>`;
 }
 
 function phone() {

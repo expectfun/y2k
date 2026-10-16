@@ -6,6 +6,7 @@ import { sorted, byId } from './exhibits.js';
 import { HALL_ART } from './hall-art.js';
 import * as sound from './sound.js';
 import { createMission, formatTime } from './mission.js';
+import { runBoot } from './boot.js';
 
 const shell = document.getElementById('shell');
 const app = document.getElementById('app');
@@ -22,6 +23,7 @@ const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 const list = sorted();
 
 let entered = false;
+let booting = false;
 let current = null; // { mod, mission, hint }
 let routeToken = 0;
 let toastTimer = 0;
@@ -61,6 +63,7 @@ function markSeen(id) {
 }
 
 async function route() {
+  if (booting) return; // the boot routes when it's done
   const token = ++routeToken;
   teardown();
   if (!entered) return renderEntrance();
@@ -121,12 +124,20 @@ function renderEntrance() {
   if (reducedMotion.matches) flip();
   else setTimeout(flip, 900);
 
-  app.querySelector('.ent-enter').addEventListener('click', () => {
+  const enter = () => {
+    booting = false;
     entered = true;
-    sound.unlock();
-    sound.welcome();
     if (!byId(location.hash.slice(1))) history.replaceState(null, '', '#hall');
     route();
+  };
+  app.querySelector('.ent-enter').addEventListener('click', () => {
+    sound.unlock();
+    if (reducedMotion.matches) {
+      sound.welcome();
+      return enter();
+    }
+    booting = true;
+    runBoot(app.querySelector('.entrance'), { sound, title: frame.name, onDone: enter });
   });
 }
 
@@ -139,13 +150,14 @@ function renderHall() {
     <div class="layout">
       <div class="stage stage-hall">
         <div class="hall">
+          <p class="hall-sign"><span>${frame.name}</span>${frame.hallTitle}</p>
           <ul class="hall-cases">
             ${list.map((e, i) => `
               <li>
                 <a class="case" href="#${e.id}">
                   <span class="case-glass" aria-hidden="true">${HALL_ART[e.id] || ''}</span>
                   <span class="case-plinth" aria-hidden="true"><span class="case-num">${i + 1}</span></span>
-                  <span class="case-label"><strong>${e.title}</strong><span>${e.years}</span></span>
+                  <span class="case-label"><strong>${e.title}</strong></span>
                   <span class="sr-only">${e.alt}</span>
                 </a>
               </li>`).join('')}
@@ -159,7 +171,7 @@ function renderHall() {
         </div>
         <div class="plaque"><p>${frame.hallIntro}</p></div>
         <ol class="side-list">
-          ${list.map((e) => `<li><a href="#${e.id}">${e.title}</a><span>${e.years}</span></li>`).join('')}
+          ${list.map((e) => `<li><a href="#${e.id}">${e.title}</a></li>`).join('')}
         </ol>
         <p class="side-tip">${frame.hallTip}</p>
       </aside>
@@ -184,9 +196,10 @@ async function renderExhibit(ex, token) {
       <aside class="side">
         <div class="side-head">
           <h1 tabindex="-1">${ex.title}</h1>
-          <p class="side-sub">${ex.native ? `<span lang="ru">${ex.native}</span> · ` : ''}${ex.years}</p>
+          ${ex.native ? `<p class="side-sub" lang="ru">${ex.native}</p>` : ''}
         </div>
         <div class="plaque"><p>${ex.plaque}</p></div>
+        <p class="replica-note"${ex.note ? '' : ' hidden'}><b></b> <span></span></p>
 
         <section class="challenge" aria-label="Challenge">
           <div class="challenge-idle">
@@ -252,7 +265,17 @@ async function renderExhibit(ex, token) {
   if (token !== routeToken) return;
   current.mod = mod;
 
+  const noteEl = q('.replica-note');
+  const setNote = (note) => {
+    noteEl.hidden = !note;
+    if (!note) return;
+    noteEl.querySelector('b').textContent = note.label;
+    noteEl.querySelector('span').textContent = note.text;
+  };
+  setNote(ex.note);
+
   mod.mount(q('.stage'), {
+    setNote,
     sound,
     mission,
     toast,

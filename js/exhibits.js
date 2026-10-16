@@ -7,7 +7,6 @@ export const exhibits = [
     order: 1,
     title: 'Abacus',
     native: 'счёты',
-    years: '17th century – 2000s',
     tags: ['physical', 'hands', 'counting'],
     plaque:
       'The Russian abacus has been counting since the 17th century, and it was still on shop counters when the year 2000 arrived. ' +
@@ -28,6 +27,7 @@ export const exhibits = [
         </ol>
         <p class="hint-small">Keyboard: ↑ ↓ choose a wire, ← → move beads.</p>`,
     },
+    note: { label: 'Replica', text: 'Shortened: 7 of the original 11 wires. Real счёты went up to millions.' },
     teaser: 'Add up a shop receipt on the beads. No display, like the real thing.',
     today: 'A calculator: ~10 s. Your phone: ~3 s.',
     challengeLabel: 'Try the challenge',
@@ -36,7 +36,6 @@ export const exhibits = [
     id: 'phone',
     order: 2,
     title: 'Mobile phone',
-    years: '1998 – 2007',
     tags: ['physical', 'screen', 'limits'],
     plaque:
       'Before touchscreens, a phone had twelve keys, and most of them carried three or four letters. ' +
@@ -58,6 +57,7 @@ export const exhibits = [
         </ul>
         <p class="hint-small">Keyboard: digits, * and # work; Backspace is C.</p>`,
     },
+    note: { label: 'Replica', text: 'A lookalike, not a real model. Phones like it came from many makers.' },
     teaser: 'Text a friend that you are running late, with twelve keys.',
     today: '~5 s on a phone keyboard, ~2 s by voice.',
     challengeLabel: 'Try the challenge',
@@ -66,7 +66,6 @@ export const exhibits = [
     id: 'dialup',
     order: 3,
     title: 'Dial-up internet',
-    years: '1995 – 2005',
     tags: ['virtual', 'waiting', 'sounds'],
     plaque:
       'Around 2000, going online meant your computer phoning another computer over the home phone line. ' +
@@ -82,6 +81,7 @@ export const exhibits = [
         <p>Don't stay online all evening, Mom needs the phone.</p>
         <p>And DON'T pick up the phone while the modem is on!!!</p>`,
     },
+    note: { label: 'Reconstruction', text: 'The desktop and “Pigeon Mail” are lookalikes of the era’s programs, not copies.' },
     teaser: 'Your friend sent you photos from the party. Check your email.',
     today: '0 s — your phone would have shown it before you even asked.',
     challengeLabel: 'Start over',
