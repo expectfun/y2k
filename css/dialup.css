@@ -1,0 +1,226 @@
+/* Dial-up: a beige monitor, a 2001 desktop, a mail client and a modem with lights.
+   A lookalike of the era's UI, not a copy of a real product. */
+
+.dial { display: flex; flex-direction: column; align-items: center; gap: 12px; width: 100%; }
+.monitor {
+  width: min(100%, 920px);
+  padding: 22px 22px 10px;
+  background: linear-gradient(#e6dfcf, #cfc6b2);
+  border-radius: 18px 18px 26px 26px;
+  box-shadow: inset 0 -6px 0 #bbb19b, inset 0 2px 0 #f5f0e4, 0 12px 26px rgba(0,0,0,.25);
+}
+@media (max-width: 600px) { .monitor { padding: 10px 8px 6px; border-radius: 12px; } }
+.screen { background: #111; border-radius: 10px; padding: 6px; box-shadow: inset 0 0 0 3px #a59d8a; }
+.monitor-chin { display: flex; justify-content: flex-end; padding: 8px 14px 0; }
+.power { width: 8px; height: 8px; border-radius: 50%; background: #5fd35f; box-shadow: 0 0 5px #5fd35f; }
+
+.desktop, .taskbar { font: 12px/1.35 Tahoma, Verdana, "Segoe UI", sans-serif; color: #000; }
+.desktop {
+  position: relative; overflow: hidden;
+  height: clamp(460px, 64vh, 600px);
+  background: radial-gradient(ellipse at 60% 40%, #3a8f8b, #2a706d);
+  border-radius: 5px 5px 0 0;
+}
+.desktop button, .taskbar button { font: inherit; color: inherit; }
+.desktop svg { flex: none; }
+
+.icons { position: absolute; left: 6px; top: 8px; display: flex; flex-direction: column; gap: 10px; width: 80px; }
+.dicon {
+  display: flex; flex-direction: column; align-items: center; gap: 3px;
+  padding: 3px 2px; background: none; border: 1px dotted transparent; cursor: pointer;
+  color: #fff !important; text-shadow: 1px 1px 0 #000; text-align: center;
+}
+.dicon svg { width: 34px; height: 34px; }
+.dicon:focus-visible { outline: 1px dotted #fff; outline-offset: 0; }
+.dicon:focus-visible span, .dicon:active span { background: #0a246a; }
+
+/* Win98-ish chrome */
+.win {
+  position: absolute; display: flex; flex-direction: column;
+  background: #c3c3c3;
+  border: 2px solid; border-color: #f4f4f4 #404040 #404040 #f4f4f4;
+  box-shadow: 1px 1px 0 #000;
+}
+.titlebar {
+  display: flex; align-items: center; justify-content: space-between; gap: 6px;
+  padding: 3px 3px 3px 5px; font-weight: 700; color: #fff;
+  background: linear-gradient(90deg, #0a246a, #a6caf0);
+}
+.titlebar > span:first-child { display: flex; align-items: center; gap: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.titlebar svg { width: 16px; height: 16px; }
+.tb-deco { display: flex; gap: 2px; }
+.tb-deco i, .tb-x {
+  display: grid; place-items: center; width: 18px; height: 16px; font-style: normal; font-size: 11px; line-height: 1;
+  color: #000; background: #c3c3c3; border: 1px solid; border-color: #fff #404040 #404040 #fff;
+}
+.tb-x { cursor: pointer; padding: 0; font-weight: 700; }
+.win.mail { left: 96px; top: 10px; right: 10px; bottom: 10px; }
+.menubar { display: flex; gap: 12px; padding: 2px 6px; }
+.toolbar { display: flex; flex-wrap: wrap; gap: 2px; padding: 3px; border-top: 1px solid #fff; border-bottom: 1px solid #808080; }
+.tbtn {
+  display: flex; flex-direction: column; align-items: center; gap: 1px;
+  min-width: 70px; padding: 3px 8px; cursor: pointer;
+  background: #c3c3c3; border: 1px solid transparent;
+}
+.tbtn b { font-size: 16px; line-height: 1; font-weight: 400; }
+.tbtn:hover { border-color: #fff #808080 #808080 #fff; }
+.tbtn:active { border-color: #808080 #fff #fff #808080; }
+.tbtn:focus-visible { outline: 1px dotted #000; outline-offset: -4px; }
+.tbtn-sr b { color: #0a246a; font-weight: 700; }
+
+.inset { border: 2px solid; border-color: #808080 #fff #fff #808080; }
+.mail-body { flex: 1; display: flex; gap: 3px; min-height: 0; padding: 3px; }
+.folders, .msglist, .preview { background: #fff; border: 2px solid; border-color: #808080 #fff #fff #808080; }
+.folders { width: 130px; flex: none; padding: 4px 6px; overflow: auto; }
+.folders p { margin: 0 0 3px; white-space: nowrap; }
+.f-item { padding-left: 12px; }
+.f-sel { background: #0a246a; color: #fff; display: inline-block; padding: 0 3px; margin-left: 9px; }
+.mail-main { flex: 1; display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.msglist { flex: 0 0 42%; overflow: auto; }
+.mhead, .mrow { display: grid; grid-template-columns: 18px minmax(70px, 1fr) minmax(110px, 2.4fr) 112px; gap: 6px; }
+.mhead { position: sticky; top: 0; background: #c3c3c3; padding: 1px 4px; border-bottom: 1px solid #808080; }
+.mhead span { white-space: nowrap; }
+.mrow {
+  width: 100%; padding: 2px 4px; text-align: left; cursor: default;
+  background: #fff; border: 0; border-bottom: 1px solid #f0f0f0;
+}
+.mrow span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mrow.unread { font-weight: 700; }
+.mrow.sel { background: #0a246a; color: #fff; }
+.mrow:focus-visible { outline: 1px dotted #000; outline-offset: -2px; }
+.preview { flex: 1; overflow: auto; padding: 6px 8px; outline: none; }
+.pv-empty { color: #666; text-align: center; margin-top: 2em; }
+.pv-head { background: #f1f1f1; border-bottom: 1px solid #ccc; margin: -6px -8px 8px; padding: 6px 8px; }
+.pv-head p { margin: 0; }
+.pv-att { margin: 0 0 8px; }
+.att {
+  padding: 3px 8px; cursor: pointer; background: #c3c3c3;
+  border: 2px solid; border-color: #fff #404040 #404040 #fff;
+  animation: att-pulse 1.6s ease-in-out infinite;
+}
+@keyframes att-pulse { 50% { background: #e0e0a0; } }
+.pv-body { white-space: pre-wrap; font: 13px/1.45 "Courier New", monospace; }
+.statusbar { display: flex; justify-content: space-between; gap: 8px; padding: 2px 6px; border-top: 1px solid #808080; }
+.statusbar span { border: 1px solid; border-color: #808080 #fff #fff #808080; padding: 0 6px; white-space: nowrap; }
+
+@media (max-width: 760px) {
+  .icons { display: none; }
+  .win.mail { left: 4px; top: 4px; right: 4px; bottom: 4px; }
+  .folders { display: none; }
+  .menubar { display: none; }
+  .mhead, .mrow { grid-template-columns: 16px minmax(54px, 1fr) minmax(90px, 2.2fr); }
+  .c-date { display: none; }
+  .tbtn { min-width: 0; flex: 1; padding: 3px 2px; }
+}
+
+/* dialogs inside the screen */
+.blocker { position: absolute; inset: 0; z-index: 20; }
+.dialog { z-index: 21; left: 50%; top: 46%; transform: translate(-50%, -50%); width: min(94%, 380px); }
+.win-body { padding: 12px 12px 10px; }
+.win-actions { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; margin-top: 12px; }
+.wbtn {
+  min-width: 78px; padding: 4px 10px; cursor: pointer; background: #c3c3c3;
+  border: 2px solid; border-color: #fff #404040 #404040 #fff; box-shadow: 1px 1px 0 #000;
+}
+.wbtn:active { border-color: #404040 #fff #fff #404040; }
+.wbtn:focus-visible { outline: 1px dotted #000; outline-offset: -5px; }
+.alert { display: flex; gap: 12px; align-items: flex-start; }
+.alert p { margin: 2px 0 0; }
+.alert-icon {
+  flex: none; width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center;
+  font: 700 20px/1 Georgia, serif; color: #fff; background: #d8a400; border: 1px solid #6b5100;
+}
+.alert-icon.alert-warn { border-radius: 2px; clip-path: polygon(50% 0, 100% 100%, 0 100%); background: #f2c230; color: #000; padding-top: 8px; }
+
+.dialer-top { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; font-size: 13px; }
+.dialer-top svg { width: 32px; height: 32px; }
+.field { display: grid; grid-template-columns: 96px 1fr; align-items: center; gap: 6px; margin: 5px 0; }
+.fake-input { background: #fff; border: 2px solid; border-color: #808080 #fff #fff #808080; padding: 2px 5px; min-height: 22px; }
+.check { margin: 4px 0 4px 102px; display: flex; align-items: center; gap: 5px; }
+.fake-check { display: inline-grid; place-items: center; width: 13px; height: 13px; background: #fff; border: 2px solid; border-color: #808080 #fff #fff #808080; font-size: 10px; }
+
+.connecting { text-align: center; }
+.conn-anim { display: flex; align-items: center; justify-content: center; gap: 8px; margin: 4px 0 10px; }
+.conn-anim svg { width: 36px; height: 36px; }
+.dots { display: flex; gap: 5px; }
+.dots i { width: 6px; height: 6px; background: #0a246a; animation: dot 1.2s steps(1) infinite; opacity: .15; }
+.dots i:nth-child(2) { animation-delay: .3s; }
+.dots i:nth-child(3) { animation-delay: .6s; }
+.dots i:nth-child(4) { animation-delay: .9s; }
+@keyframes dot { 0%, 30% { opacity: 1; } 31%, 100% { opacity: .15; } }
+.conn-status { margin: 0; font-weight: 700; min-height: 2.7em; }
+.conn-detail { margin: 2px 0 0; color: #444; }
+
+.progress-win { top: auto; bottom: 14px; left: auto; right: 14px; transform: none; width: min(94%, 400px); }
+.progress-win.skipping .titlebar { background: linear-gradient(90deg, #6a0a5a, #e0a6d8); }
+.pr-task, .pr-status, .pr-detail { margin: 0 0 6px; }
+.pr-status { font-weight: 700; }
+.progress { height: 20px; padding: 2px; background: #fff; border: 2px solid; border-color: #808080 #fff #fff #808080; }
+.progress i { display: block; height: 100%; width: 0; background: repeating-linear-gradient(90deg, #0a246a 0 9px, transparent 9px 11px); }
+.pr-detail { margin-top: 6px; color: #333; font-variant-numeric: tabular-nums; }
+.pr-skip { font-weight: 700; }
+
+.viewer { top: 50%; width: min(94%, 352px); }
+.viewer .win-body { padding: 8px; }
+.viewer canvas { display: block; width: 100%; height: auto; background: #c3c3c3; border: 2px solid; border-color: #808080 #fff #fff #808080; }
+.viewer-status { margin: 6px 0 0; }
+
+.tray-win { top: auto; bottom: 8px; left: auto; right: 8px; transform: none; width: min(94%, 280px); }
+.tray-info p { margin: 0 0 4px; }
+
+/* taskbar */
+.taskbar {
+  display: flex; align-items: center; gap: 4px; height: 30px; padding: 0 3px;
+  background: #c3c3c3; border-top: 2px solid #fff; border-radius: 0 0 5px 5px;
+}
+.start, .task-item {
+  display: flex; align-items: center; gap: 4px; height: 22px; padding: 0 6px;
+  border: 2px solid; border-color: #fff #404040 #404040 #fff; white-space: nowrap;
+}
+.start { font-weight: 700; }
+.start i { width: 14px; height: 12px; background: conic-gradient(#e04b3a 0 25%, #4cbf5a 0 50%, #f2c230 0 75%, #3a8fe0 0); }
+.task-item { flex: 0 1 200px; overflow: hidden; border-color: #404040 #fff #fff #404040; background: #d8d8d8; }
+.tray {
+  margin-left: auto; display: flex; align-items: center; gap: 6px; height: 22px; padding: 0 6px;
+  border: 1px solid; border-color: #808080 #fff #fff #808080;
+}
+.tray-net { display: flex; align-items: center; gap: 4px; padding: 0 2px; background: none; border: 0; cursor: pointer; font-variant-numeric: tabular-nums; }
+.tray-net svg { width: 20px; height: 16px; }
+.tray-net .tray-a, .tray-net .tray-b { fill: #2f7f7c; }
+.tray-net.nag { animation: nag 1s steps(1) infinite; }
+@keyframes nag { 50% { background: #f2c230; } }
+.clock { font-variant-numeric: tabular-nums; }
+
+.balloon {
+  position: absolute; right: 10px; bottom: 10px; z-index: 30; max-width: 250px; pointer-events: none;
+  padding: 8px 10px; white-space: pre-line;
+  background: #ffffe1; border: 1px solid #000; border-radius: 8px; box-shadow: 2px 2px 4px rgba(0,0,0,.3);
+}
+
+.sticky {
+  position: absolute; z-index: 15; right: 18px; top: 50px; width: 170px;
+  padding: 12px 12px 10px; background: var(--note);
+  font: 1.05rem/1.3 var(--hand); color: #222;
+  transform: rotate(3deg); box-shadow: 0 6px 12px rgba(0,0,0,.3);
+}
+.sticky p { margin: 0; }
+.sticky-small { margin-top: 6px !important; font-size: .85rem; color: #555; }
+
+/* the modem */
+.modem {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 6px 16px;
+  width: min(90%, 420px); padding: 8px 14px;
+  background: linear-gradient(#ece5d5, #d2c9b5); border-radius: 6px;
+  box-shadow: inset 0 -3px 0 #bbb19b, 0 6px 12px rgba(0,0,0,.2);
+}
+.modem-name { font: 700 11px/1 var(--sans); letter-spacing: .12em; color: #6b6150; }
+.leds { display: flex; gap: 10px; }
+.led-wrap { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.led-wrap small { font: 600 8px/1 var(--sans); color: #6b6150; }
+.led { width: 8px; height: 8px; border-radius: 50%; background: #5a1d1d; box-shadow: inset 0 1px 1px rgba(0,0,0,.5); }
+.led.on { background: #ff3b30; box-shadow: 0 0 6px #ff3b30; }
+.led.blink { animation: led .22s steps(1) infinite; }
+.led-wrap:nth-child(6) .led.blink { animation-duration: .31s; }
+.modem.busy [data-led="RD"] { animation: led .17s steps(1) infinite; }
+.modem.busy [data-led="SD"] { animation: led .41s steps(1) infinite; }
+@keyframes led { 0% { background: #ff3b30; box-shadow: 0 0 6px #ff3b30; } 50% { background: #5a1d1d; box-shadow: none; } }

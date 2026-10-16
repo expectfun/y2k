@@ -1,0 +1,78 @@
+/* Abacus: the look of experiments/abacus.html, scoped. */
+
+.abacus-stage {
+  display: flex; flex-wrap: wrap; gap: 24px; justify-content: center; align-items: flex-start;
+  width: 100%; user-select: none; -webkit-user-select: none;
+}
+.abacus-col { display: flex; flex-direction: column; align-items: center; }
+.abacus-bar { display: flex; gap: 8px; align-items: stretch; flex-wrap: wrap; justify-content: center; }
+.abacus-display {
+  font-size: 1.8rem; font-weight: 700; letter-spacing: 2px; color: #3d2b1f;
+  background: #faf6f0; border: 3px solid #6b4c30; border-radius: 8px;
+  padding: 4px 20px; min-width: 180px; text-align: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,.15);
+  font-variant-numeric: tabular-nums; outline: none;
+  user-select: text; -webkit-user-select: text;
+}
+.abacus-display:focus { border-color: #4a90d9; box-shadow: 0 2px 8px rgba(0,0,0,.15), 0 0 0 2px rgba(74,144,217,.3); }
+.abacus-msg { min-height: 1.5em; margin: 6px 0 14px; font-size: .95rem; color: var(--muted); text-align: center; }
+
+.abacus { position: relative; margin: 8px 0; }
+.abacus .frame-top, .abacus .frame-bottom { position: absolute; z-index: 10; border-radius: 2px; }
+.abacus .frame-top {
+  background: linear-gradient(to bottom, #a07040, #7a5030 40%, #6b4226 80%, #5a3520);
+  box-shadow: 0 2px 4px rgba(0,0,0,.3), inset 0 2px 3px rgba(255,255,255,.15);
+}
+.abacus .frame-bottom {
+  background: linear-gradient(to bottom, #6b4226, #7a5030 60%, #5a3520);
+  box-shadow: 0 -1px 3px rgba(0,0,0,.2), inset 0 -2px 3px rgba(255,255,255,.1);
+}
+.abacus .frame-left, .abacus .frame-right { position: absolute; z-index: 9; border-radius: 2px; }
+.abacus .frame-left {
+  background: linear-gradient(to right, #a07040, #8a5a35 30%, #7a5030 70%, #6b4226);
+  box-shadow: 2px 0 4px rgba(0,0,0,.25), inset 2px 0 3px rgba(255,255,255,.1);
+}
+.abacus .frame-right {
+  background: linear-gradient(to right, #6b4226, #7a5030 30%, #8a5a35 70%, #5a3520);
+  box-shadow: -2px 0 4px rgba(0,0,0,.25), inset -1px 0 2px rgba(255,255,255,.08);
+}
+.abacus-wires { position: relative; }
+.abacus-wire { position: relative; cursor: pointer; touch-action: pan-y; outline: none; }
+.abacus-wire:focus-visible { background: rgba(31, 111, 235, .14); box-shadow: inset 0 0 0 2px var(--focus); border-radius: 3px; }
+.abacus .wire-line {
+  position: absolute; left: -2px; right: -2px; top: 50%; height: 2px;
+  transform: translateY(-50%); background: #555; z-index: 0; border-radius: 1px;
+}
+.abacus .bead { position: absolute; top: 50%; transform: translateY(-50%); border-radius: 50%; z-index: 1; transition: left .18s ease-out; }
+.abacus .bead-inner {
+  width: 100%; height: 100%; border-radius: 50%;
+  background: radial-gradient(ellipse at 40% 35%, #e8d5a8, #d4b87a 45%, #b89850 80%, #9a7a38);
+  border: 1.5px solid #8a6a30;
+  box-shadow: 0 1px 2px rgba(0,0,0,.3), inset 0 1px 2px rgba(255,255,255,.25);
+}
+.abacus .bead:hover .bead-inner { background: radial-gradient(ellipse at 40% 35%, #f0dfb8, #dcc08a 45%, #c0a060 80%, #a88a48); }
+.abacus .bead[data-dark] .bead-inner { background: radial-gradient(ellipse at 40% 35%, #555, #333 45%, #1a1a1a 80%, #000); border-color: #000; }
+.abacus .bead[data-dark]:hover .bead-inner { background: radial-gradient(ellipse at 40% 35%, #666, #444 45%, #222 80%, #0a0a0a); }
+.abacus .wire-label {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  color: #8a6a30; opacity: .6; white-space: nowrap; pointer-events: none;
+}
+
+/* the paper receipt for the challenge */
+.receipt {
+  width: 240px; margin-top: 56px; padding: 16px 16px 26px;
+  font: 14px/1.45 "Courier New", Courier, monospace; color: #333;
+  background: #fffdf7; box-shadow: 0 4px 12px rgba(0,0,0,.18);
+  transform: rotate(1.2deg);
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 8px), 95% 100%, 90% calc(100% - 8px), 85% 100%, 80% calc(100% - 8px), 75% 100%, 70% calc(100% - 8px), 65% 100%, 60% calc(100% - 8px), 55% 100%, 50% calc(100% - 8px), 45% 100%, 40% calc(100% - 8px), 35% 100%, 30% calc(100% - 8px), 25% 100%, 20% calc(100% - 8px), 15% 100%, 10% calc(100% - 8px), 5% 100%, 0 calc(100% - 8px));
+}
+.receipt p { margin: 0; }
+.r-shop { text-align: center; font-weight: 700; letter-spacing: .1em; }
+.r-meta { text-align: center; font-size: 12px; color: #666; }
+.r-rule { color: #999; overflow: hidden; white-space: nowrap; }
+.r-line { display: flex; justify-content: space-between; gap: 8px; }
+.r-total { font-weight: 700; font-size: 16px; }
+.r-thanks { margin-top: 8px !important; text-align: center; font-size: 12px; color: #666; }
+@media (max-width: 760px) {
+  .receipt { order: -1; margin-top: 0; transform: none; }
+}

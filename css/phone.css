@@ -1,0 +1,69 @@
+/* Dumbphone: a flat front face, Nokia-ish but not a copy of any model. */
+
+.phone-stage {
+  display: flex; flex-wrap: wrap; gap: 28px; justify-content: center; align-items: flex-start;
+  width: 100%; user-select: none; -webkit-user-select: none;
+}
+.phone {
+  width: 272px; flex: none;
+  padding: 24px 22px 30px;
+  background: linear-gradient(160deg, #475a75, #2a3648 55%, #1c2533);
+  border-radius: 64px 64px 78px 78px / 46px 46px 96px 96px;
+  box-shadow:
+    inset 0 2px 0 rgba(255,255,255,.2),
+    inset 0 -6px 14px rgba(0,0,0,.45),
+    0 16px 30px rgba(0,0,0,.35);
+}
+.phone-ear {
+  width: 56px; height: 6px; margin: 0 auto 10px; border-radius: 3px;
+  background: repeating-linear-gradient(90deg, #10151d 0 4px, transparent 4px 7px);
+}
+.phone-brand { text-align: center; color: #c9d2de; letter-spacing: .4em; font: 700 11px/1 var(--sans); margin-bottom: 10px; padding-left: .4em; }
+.phone-screen {
+  background: #0e131a; border-radius: 16px 16px 22px 22px; padding: 12px 12px 14px;
+  box-shadow: inset 0 2px 6px rgba(0,0,0,.8), 0 1px 0 rgba(255,255,255,.12);
+}
+.phone-screen canvas { display: block; width: 100%; height: auto; border-radius: 3px; image-rendering: pixelated; }
+
+.phone button { -webkit-tap-highlight-color: transparent; touch-action: manipulation; cursor: pointer; font-family: var(--sans); }
+.phone-soft { display: grid; grid-template-columns: 1fr 52px 1fr; gap: 12px; align-items: center; margin: 16px 2px 16px; }
+.soft {
+  height: 26px; border: 0; border-radius: 13px 13px 20px 20px;
+  background: linear-gradient(#d3dae3, #9aa6b4);
+  box-shadow: 0 2px 0 #4f5a68, inset 0 1px 0 #fff;
+}
+.key-c {
+  width: 52px; height: 40px; border: 0; border-radius: 50%;
+  font: 700 15px/1 var(--sans); color: #1d2530;
+  background: radial-gradient(circle at 40% 30%, #f0f3f6, #aab4c0);
+  box-shadow: 0 2px 0 #4f5a68, inset 0 1px 0 #fff;
+}
+.keypad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px 12px; }
+.key {
+  height: 46px; border: 0;
+  border-radius: 24px 24px 18px 18px / 20px 20px 26px 26px;
+  background: linear-gradient(#edf0f4, #bcc5d0);
+  box-shadow: 0 2px 0 #4f5a68, inset 0 1px 0 #fff;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+  color: #1d2530;
+}
+.key span { font: 700 18px/1 var(--sans); }
+.key small { font: 600 9px/1 var(--sans); letter-spacing: .08em; color: #4a5563; }
+.phone .down, .soft:active, .key-c:active, .key:active {
+  transform: translateY(2px);
+  box-shadow: 0 0 0 #4f5a68, inset 0 1px 0 rgba(255,255,255,.6);
+  filter: brightness(.92);
+}
+.phone-mic { width: 26px; height: 4px; margin: 20px auto 0; border-radius: 2px; background: #10151d; }
+
+.phone-note {
+  width: 220px; margin-top: 40px; padding: 16px 18px;
+  background: var(--note); font-family: var(--hand); font-size: 1.2rem; line-height: 1.35;
+  transform: rotate(2.5deg); box-shadow: 0 8px 18px rgba(0,0,0,.2);
+}
+.phone-note p { margin: 0; }
+.note-kicker { font-size: .95rem; color: #6d5a10; margin-bottom: .3em !important; }
+@media (max-width: 640px) {
+  .phone-note { order: -1; margin-top: 0; width: 100%; max-width: 300px; transform: none; }
+}
+@media (max-width: 340px) { .phone { width: 100%; } }
