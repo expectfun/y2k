@@ -9,7 +9,7 @@ Plain HTML + JS modules, no build step. ES modules need a server, so locally:
 ## Layout
 
 - `index.html` — entry point, mute toggle
-- `js/main.js` — routing (`#hall`, `#abacus`, `#phone`, `#dialup`), entrance, hall, exhibit page
+- `js/main.js` — routing (`#hall`, `#abacus`, `#rotary`, `#phone`, `#dialup`), entrance, hall, exhibit page
 - `js/frame.js` — world-specific texts (neutral frame now; `?world=` later)
 - `js/exhibits.js` — exhibit data: plaques, hints, "today" comparisons
 - `js/hall-art.js` — SVG art for the display cases

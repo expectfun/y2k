@@ -21,6 +21,20 @@ function abacus() {
     <rect x="4.5" y="5" width="79" height="102" rx="3" fill="none" stroke="#7a5030" stroke-width="7"/></svg>`;
 }
 
+function rotary() {
+  let holes = '';
+  for (let n = 0; n < 10; n++) {
+    const a = (-n * 30 * Math.PI) / 180;
+    holes += `<circle cx="${(60 + 15 * Math.cos(a)).toFixed(1)}" cy="${(79 + 15 * Math.sin(a)).toFixed(1)}" r="3.2" fill="#f1ece0"/>`;
+  }
+  return `<svg viewBox="0 0 120 112" xmlns="http://www.w3.org/2000/svg">
+    <path d="M28 44h64q6 0 7 6l9 52q1 6-5 6H17q-6 0-5-6l9-52q1-6 7-6z" fill="#a82a26"/>
+    <path d="M14 28q0-12 13-12h66q13 0 13 12 0 12-12 12-6 0-9-5H35q-3 5-9 5-12 0-12-12z" fill="#c23a33"/>
+    <circle cx="60" cy="79" r="24" fill="#f1ece0"/><circle cx="60" cy="79" r="23" fill="#1b1e24"/>${holes}
+    <circle cx="60" cy="79" r="7" fill="#fbf6e3"/>
+    <path d="M71 89l7 6" stroke="#d9dde2" stroke-width="2.5" stroke-linecap="round"/></svg>`;
+}
+
 function phone() {
   let keys = '';
   for (let r = 0; r < 4; r++) {
@@ -54,4 +68,4 @@ function dialup() {
     <rect x="34" y="96" width="72" height="13" rx="3" fill="#e6dfcf" stroke="#b8ae98"/>${leds}</svg>`;
 }
 
-export const HALL_ART = { abacus: abacus(), phone: phone(), dialup: dialup() };
+export const HALL_ART = { abacus: abacus(), rotary: rotary(), phone: phone(), dialup: dialup() };

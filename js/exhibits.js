@@ -33,8 +33,34 @@ export const exhibits = [
     challengeLabel: 'Try the challenge',
   },
   {
-    id: 'phone',
+    id: 'rotary',
     order: 2,
+    title: 'Home phone',
+    native: 'дисковый телефон',
+    tags: ['physical', 'hands', 'sounds'],
+    plaque:
+      'In 2000 most homes still had a phone with a dial. You put a finger in the hole of a digit, turned the dial to the metal stop and let go. ' +
+      'On the way back it clicked the line open and shut once for every step: one click for 1, ten for 0. ' +
+      'A number full of nines and zeros took ages, and if you slipped on the last digit, you started again. ' +
+      'There was no redial button, so getting through to a busy line meant dialing the whole number, again and again.',
+    alt: 'A red desk telephone with a rotary dial: a black disc with ten finger holes over the digits 1 to 0, a metal finger stop, and a handset resting on top.',
+    hint: {
+      kind: 'note',
+      title: 'Note by the phone',
+      html: `
+        <p>Lift the receiver and wait for the long beep.</p>
+        <p>Finger in the hole, turn it ALL the way to the metal stop, let go. Don't push it back, it goes by itself!</p>
+        <p>Short beeps = busy. Hang up and dial again.</p>
+        <p class="hint-small">Drag a hole round to the stop. Keyboard: digits turn the dial, Enter lifts or hangs up the receiver.</p>`,
+    },
+    note: { label: 'Replica', text: 'A lookalike of the era’s home phones, not a real model. Radio Meteor and its number are made up.' },
+    teaser: 'Be the tenth caller to the radio station and win the concert tickets.',
+    today: 'Redial is one tap. Or you would just enter the contest in the station’s app.',
+    challengeLabel: 'Try the challenge',
+  },
+  {
+    id: 'phone',
+    order: 3,
     title: 'Mobile phone',
     tags: ['physical', 'screen', 'limits'],
     plaque:
@@ -64,7 +90,7 @@ export const exhibits = [
   },
   {
     id: 'dialup',
-    order: 3,
+    order: 4,
     title: 'Dial-up internet',
     tags: ['virtual', 'waiting', 'sounds'],
     plaque:

@@ -304,3 +304,57 @@ export function cdSeek(dur, bus) {
     t += 0.15 + Math.random() * 0.4;
   }
 }
+
+// --- the home phone (Russian exchanges used 425 Hz for line tones) -----------
+
+const LINE_HZ = 425;
+
+// Dial tone is continuous (off = 0); busy is 0.35/0.35 s, ringback 0.8/3.2 s.
+export function lineTone(on, off, total, bus) {
+  if (!ac) return;
+  const s = now();
+  if (!off) {
+    tones(LINE_HZ, s, total, 0.07, { bus });
+    return;
+  }
+  for (let t = 0; t < total; t += on + off) tones(LINE_HZ, s + t, on, 0.07, { bus });
+}
+
+// The three rising tones before "the number you have dialed…".
+export function sitTones(bus) {
+  if (!ac) return;
+  const s = now();
+  [913.8, 1370.6, 1776.7].forEach((f, i) => tones(f, s + i * 0.33, 0.3, 0.06, { bus }));
+}
+
+// The speaking clock's pips.
+export function pips(n, bus) {
+  if (!ac) return;
+  const s = now();
+  for (let i = 0; i < n; i++) tones(1000, s + i * 0.6, 0.12, 0.06, { bus });
+}
+
+// One pulse of the dial: the line opening and shutting, a dry tick.
+export function pulseClick() {
+  if (!ac) return;
+  const s = now();
+  noise(s, 0.018, 0.25, { type: 'highpass', freq: 1500, q: 0.7, attack: 0.001, release: 0.01 });
+  tones(110, s, 0.02, 0.05, { type: 'square', attack: 0.001, release: 0.01 });
+}
+
+// The governor whirring while the spring pulls the dial back.
+export function dialWhirr(dur) {
+  if (!ac) return;
+  const s = now();
+  noise(s, dur, 0.04, { freq: 1300, q: 3, attack: 0.02, release: 0.05 });
+  tones(52, s, dur, 0.03, { type: 'sawtooth', attack: 0.02, release: 0.05 });
+}
+
+// A modem already on the line: what you heard lifting the phone while someone was online.
+export function lineNoise(dur, bus) {
+  if (!ac) return;
+  const s = now();
+  const out = bus || master;
+  hiss(s, dur, 0.15, 1800, out);
+  tones(1800, s, dur, 0.012, { bus: out });
+}
